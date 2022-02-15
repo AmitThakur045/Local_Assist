@@ -7,8 +7,9 @@ import {
   Button,
   Icon,
   IconProps,
-  Link,
+  Link
 } from "@chakra-ui/react";
+import { Link as ReachLink } from "react-router-dom";
 
 export default function CallToActionWithIllustration() {
   return (
@@ -46,7 +47,7 @@ export default function CallToActionWithIllustration() {
               bg={"orange.400"}
               _hover={{ bg: "orange.500" }}
             >
-              <Link href="/signup">Get Started</Link>
+              <Link as={ReachLink} to="signup">Get Started</Link>
             </Button>
           </Stack>
           <Flex w={"full"}>
