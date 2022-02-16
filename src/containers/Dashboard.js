@@ -1,3 +1,5 @@
+// localhoast:3000/dashboard
+import {Link as ReachLink, useNavigate} from "react-router-dom";
 import {
   Box,
   Heading,
@@ -18,10 +20,24 @@ import {
 import { Center } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import Footer from "../components/Footer";
+import { useUserAuth } from "../context/UserAuthContext";
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { user, logOut } = useUserAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+    } catch (err) {
+      console.log(err.message);
+    }
+    return navigate("/login");
+  }
+
   return (
     <>
       <Heading>
@@ -31,7 +47,7 @@ export default function NavBar() {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Box fontWeight="bold" fontSize="3xl" fontFamily="sans-serif">
             <button>
-              <Link href="/dashboard" style={{ textDecoration: "none" }}>
+              <Link as={ReachLink} to="/dashboard" style={{ textDecoration: "none" }}>
                 Local Assist
               </Link>
             </button>
@@ -66,14 +82,16 @@ export default function NavBar() {
                   </Center>
                   <br />
                   <Center>
-                    <p>Username</p>
+                    {user ? <p>{user.email}</p> : <p>Username</p>}
                   </Center>
                   <br />
                   <MenuDivider />
                   <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
                   <MenuItem>
-                    <Link to="login">Logout</Link>
+                  <Button colorScheme='teal' size='xs' onClick={handleLogout}>
+                    Log Out
+                  </Button>
                   </MenuItem>
                 </MenuList>
               </Menu>
