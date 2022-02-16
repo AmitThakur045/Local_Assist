@@ -23,6 +23,7 @@ import {
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useUserAuth } from "../context/UserAuthContext";
+import GoogleButton from "react-google-button";
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +31,7 @@ export default function SignupCard() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { logIn } = useUserAuth();
+  const { logIn, googleSignIn } = useUserAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -44,6 +45,18 @@ export default function SignupCard() {
       setError(err.message);
     }
   };
+
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      await googleSignIn();
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
+    }
+  }
 
   return (
     <>
@@ -125,6 +138,9 @@ export default function SignupCard() {
                   >
                     Login
                   </Button>
+                </Stack>
+                <Stack spacing={10} pt={2}>
+                  <GoogleButton onClick={handleGoogleSignIn}/>
                 </Stack>
                 <Stack pt={6}>
                   <Text align={"center"}>
