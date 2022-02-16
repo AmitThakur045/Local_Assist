@@ -4,6 +4,7 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Home from "./containers/Home";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
+import ProtectedRoute from "./containers/ProtectedRoute";
 
 import "./App.css";
 
@@ -13,7 +14,14 @@ function App() {
       <UserAuthContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              // <ProtectedRoute>
+                <Dashboard />
+              // {/* </ProtectedRoute> */}
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>

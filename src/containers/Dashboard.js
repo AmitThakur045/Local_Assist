@@ -1,5 +1,5 @@
 // localhoast:3000/dashboard
-import {Link as ReachLink} from "react-router-dom";
+import {Link as ReachLink, Navigate} from "react-router-dom";
 import {
   Box,
   Heading,
@@ -20,10 +20,23 @@ import {
 import { Center } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import Footer from "../components/Footer";
+import { useUserAuth } from "../context/UserAuthContext";
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { user, logOut } = useUserAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      return <Navigate to="/login" />;
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   return (
     <>
       <Heading>
@@ -68,14 +81,14 @@ export default function NavBar() {
                   </Center>
                   <br />
                   <Center>
-                    <p>Username</p>
+                    <p>{user.email}</p>
                   </Center>
                   <br />
                   <MenuDivider />
                   <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
                   <MenuItem>
-                    <Link as={ReachLink} to="/login">Logout</Link>
+                    <Link onClick={handleLogout}>Logout</Link>
                   </MenuItem>
                 </MenuList>
               </Menu>
