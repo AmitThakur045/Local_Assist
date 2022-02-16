@@ -1,5 +1,5 @@
 // localhoast:3000/dashboard
-import {Link as ReachLink, Navigate} from "react-router-dom";
+import {Link as ReachLink, useNavigate} from "react-router-dom";
 import {
   Box,
   Heading,
@@ -27,14 +27,15 @@ export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { user, logOut } = useUserAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await logOut();
-      return <Navigate to="/login" />;
     } catch (err) {
       console.log(err.message);
     }
+    return navigate("/login");
   }
 
   return (
@@ -81,14 +82,16 @@ export default function NavBar() {
                   </Center>
                   <br />
                   <Center>
-                    <p>{user.email}</p>
+                    {user ? <p>{user.email}</p> : <p>Username</p>}
                   </Center>
                   <br />
                   <MenuDivider />
                   <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
                   <MenuItem>
-                    <Link onClick={handleLogout}>Logout</Link>
+                  <Button colorScheme='teal' size='xs' onClick={handleLogout}>
+                    Log Out
+                  </Button>
                   </MenuItem>
                 </MenuList>
               </Menu>
