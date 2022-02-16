@@ -1,9 +1,10 @@
 // localhoast:3000/dashboard
-import { Link as ReachLink, useNavigate } from "react-router-dom";
+import { Link as ReachLink, useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Heading,
   Flex,
+  Text,
   Avatar,
   Link,
   Button,
@@ -12,7 +13,6 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
   Stack,
   useColorMode,
@@ -20,21 +20,19 @@ import {
 import { Center } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useUserAuth } from "../context/UserAuthContext";
-import Card from "../components/Card";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import Loader from "../components/Loader";
 
-export default function NavBar() {
+const Comments = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   const { user, logOut } = useUserAuth();
   const navigate = useNavigate();
+  // Post Id
+  const { id } = useParams();
 
-  const [isFetching, setIsFetching] = useState(true);
   const [posts, setPosts] = useState([]);
   const usersCollectionRef = collection(db, "posts");
 
@@ -42,10 +40,18 @@ export default function NavBar() {
     const getPosts = async () => {
       const response = await getDocs(usersCollectionRef);
       setPosts(response.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      setIsFetching(false);
     };
 
     getPosts();
+  }, []);
+
+  let title = null;
+  let comments = null;
+  posts.map((post) => {
+    if (post.id === id) {
+      title = post.description;
+      comments = post.comments;
+    }
   });
 
   const handleLogout = async () => {
@@ -56,6 +62,8 @@ export default function NavBar() {
     }
     return navigate("/login");
   };
+
+  //   console.log(comments);
 
   return (
     <>
@@ -123,23 +131,22 @@ export default function NavBar() {
         </Flex>
       </Box>
       <Box>
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 4 }}>
-          {isFetching ? (
-            <Loader />
-          ) : (
-            <Masonry>
-              {posts.map((post) => (
-                <Card
-                  key={post.id}
-                  description={post.description}
-                  id={post.id}
-                  comments={posts.comments}
-                />
-              ))}
-            </Masonry>
-          )}
-        </ResponsiveMasonry>
+          <Box
+            mt="1"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            isTruncated
+          >
+            {title}
+          </Box>
+
+        {comments?.map((item) => (
+          <p>{item}</p>
+        ))}
       </Box>
     </>
   );
-}
+};
+
+export default Comments;

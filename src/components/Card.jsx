@@ -12,8 +12,12 @@ import {
   Flex,
   Grid,
 } from "@chakra-ui/react";
+import { Link as ReachLink, Route, useNavigate } from "react-router-dom";
+import Comments from "./Comments";
 
 export default function Card({ description, id, comments }) {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box
@@ -41,6 +45,9 @@ export default function Card({ description, id, comments }) {
             rounded={"full"}
             _focus={{
               bg: "gray.200",
+            }}
+            onClick={() => {  
+              navigate(`/comments/${id}`);
             }}
           >
             Comment
