@@ -1,5 +1,5 @@
 // localhoast:3000/dashboard
-import {Link as ReachLink, useNavigate} from "react-router-dom";
+import { Link as ReachLink, useNavigate } from "react-router-dom";
 import {
   Box,
   Heading,
@@ -19,8 +19,13 @@ import {
 } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import Footer from "../components/Footer";
 import { useUserAuth } from "../context/UserAuthContext";
+import Card from "../components/Card";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import Loader from "../components/Loader";
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -29,6 +34,20 @@ export default function NavBar() {
   const { user, logOut } = useUserAuth();
   const navigate = useNavigate();
 
+  const [isFetching, setIsFetching] = useState(true);
+  const [posts, setPosts] = useState([]);
+  const usersCollectionRef = collection(db, "posts");
+
+  useEffect(() => {
+    const getPosts = async () => {
+      const response = await getDocs(usersCollectionRef);
+      setPosts(response.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setIsFetching(false);
+    };
+
+    getPosts();
+  }, []);
+
   const handleLogout = async () => {
     try {
       await logOut();
@@ -36,7 +55,7 @@ export default function NavBar() {
       console.log(err.message);
     }
     return navigate("/login");
-  }
+  };
 
   return (
     <>
@@ -47,7 +66,11 @@ export default function NavBar() {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Box fontWeight="bold" fontSize="3xl" fontFamily="sans-serif">
             <button>
-              <Link as={ReachLink} to="/dashboard" style={{ textDecoration: "none" }}>
+              <Link
+                as={ReachLink}
+                to="/dashboard"
+                style={{ textDecoration: "none" }}
+              >
                 Local Assist
               </Link>
             </button>
@@ -89,9 +112,9 @@ export default function NavBar() {
                   <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
                   <MenuItem>
-                  <Button colorScheme='teal' size='xs' onClick={handleLogout}>
-                    Log Out
-                  </Button>
+                    <Button colorScheme="teal" size="xs" onClick={handleLogout}>
+                      Log Out
+                    </Button>
                   </MenuItem>
                 </MenuList>
               </Menu>
@@ -99,7 +122,24 @@ export default function NavBar() {
           </Flex>
         </Flex>
       </Box>
-      <Footer></Footer>
+      <Box>
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 4 }}>
+          {isFetching ? (
+            <Loader />
+          ) : (
+            <Masonry>
+              {posts.map((post) => (
+                <Card
+                  description={post.description}
+                  id={post.id}
+                  comments={posts.comments}
+                />
+              ))}
+            </Masonry>
+          )}
+        </ResponsiveMasonry>
+      </Box>
+      {/* <Footer></Footer> */}
     </>
   );
 }
