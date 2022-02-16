@@ -1,4 +1,5 @@
 // // localhoast:3000/login
+import { Link as ReachLink } from "react-router-dom";
 import {
   Flex,
   Box,
@@ -81,6 +82,14 @@ export default function SignupCard() {
                 >
                   Login
                 </Button>
+              </Stack>
+              <Stack pt={6}>
+                <Text align={"center"}>
+                  Don't have an account?{" "}
+                  <Link as={ReachLink} color={"blue.400"} to="/signup">
+                    SignUp
+                  </Link>
+                </Text>
               </Stack>
             </Stack>
           </Box>

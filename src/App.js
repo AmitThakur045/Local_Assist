@@ -3,18 +3,21 @@ import Dashboard from "./containers/Dashboard";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Home from "./containers/Home";
+import { UserAuthContextProvider } from "./context/UserAuthContext";
 
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+      <UserAuthContextProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </UserAuthContextProvider>
     </Router>
   );
 }

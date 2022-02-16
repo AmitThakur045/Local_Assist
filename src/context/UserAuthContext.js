@@ -31,7 +31,7 @@ export function UserAuthContextProvider({ children }) {
     }, [])
 
     return (
-        <userAuthContext.Provider value={}>
+        <userAuthContext.Provider value={{user, signUp }}>
         {children}
         </userAuthContext.Provider>
     );
