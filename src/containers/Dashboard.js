@@ -1,3 +1,5 @@
+// localhoast:3000/dashboard
+import {Link as ReachLink} from "react-router-dom";
 import {
   Box,
   Heading,
@@ -31,7 +33,7 @@ export default function NavBar() {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Box fontWeight="bold" fontSize="3xl" fontFamily="sans-serif">
             <button>
-              <Link href="/dashboard" style={{ textDecoration: "none" }}>
+              <Link as={ReachLink} to="/dashboard" style={{ textDecoration: "none" }}>
                 Local Assist
               </Link>
             </button>
@@ -73,7 +75,7 @@ export default function NavBar() {
                   <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
                   <MenuItem>
-                    <Link to="login">Logout</Link>
+                    <Link as={ReachLink} to="/login">Logout</Link>
                   </MenuItem>
                 </MenuList>
               </Menu>
