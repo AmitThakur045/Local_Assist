@@ -80,7 +80,12 @@ export default function SignupCard() {
                   <Alert status="error">
                     <AlertIcon />
                     <AlertDescription>{error}</AlertDescription>
-                    <CloseButton position="absolute" right="8px" top="8px" onClick={e => setError("")} />
+                    <CloseButton
+                      position="absolute"
+                      right="8px"
+                      top="8px"
+                      onClick={(e) => setError("")}
+                    />
                   </Alert>
                 )}
                 <HStack>
