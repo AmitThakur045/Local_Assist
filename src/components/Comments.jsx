@@ -28,6 +28,7 @@ import { db } from "../firebase";
 import Loader from "../components/Loader";
 import SingleComment from "./SingleComment";
 import { Input } from "@chakra-ui/react";
+import Create from "./Create";
 
 const Comments = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -95,6 +96,7 @@ const Comments = () => {
 
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
+              <Create />
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>

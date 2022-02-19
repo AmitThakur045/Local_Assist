@@ -4,6 +4,7 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Home from "./containers/Home";
 import Comments from "./components/Comments";
+import Form from "./components/Form";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import ProtectedRoute from "./containers/ProtectedRoute";
 
@@ -23,9 +24,10 @@ function App() {
               // {/* </ProtectedRoute> */}
             }
           />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/comments/:id" element={<Comments />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<Signup />} />
+          <Route exact path="/comments/:id" element={<Comments />} />
+          <Route exact path="/create" element={<Form />} />
         </Routes>
       </UserAuthContextProvider>
     </Router>
