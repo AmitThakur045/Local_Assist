@@ -166,9 +166,9 @@ const Comments = () => {
                 flex={1}
                 fontSize={"sm"}
                 rounded={"full"}
-                _focus={{
-                  bg: "gray.200",
-                }}
+                // _focus={{
+                //   bg: "gray.200",
+                // }}
                 onClick={() => {
                   AddComment();
                 }}
