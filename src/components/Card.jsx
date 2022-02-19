@@ -50,7 +50,7 @@ export default function Card({ description, id, comments }) {
               navigate(`/comments/${id}`);
             }}
           >
-            Comment
+            Comments
           </Button>
           <Button
             flex={1}

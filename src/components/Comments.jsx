@@ -16,6 +16,7 @@ import {
   useColorModeValue,
   Stack,
   useColorMode,
+  Spacer,
 } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
@@ -25,6 +26,8 @@ import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import Loader from "../components/Loader";
+import SingleComment from "./SingleComment";
+import { Input } from "@chakra-ui/react";
 
 const Comments = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -130,20 +133,59 @@ const Comments = () => {
           </Flex>
         </Flex>
       </Box>
-      <Box>
+      <Flex flexDir={"column"} alignItems={"center"}>
+        <Flex alignItems={"center"} gap='50px'>
           <Box
             mt="1"
             fontWeight="semibold"
             as="h4"
             lineHeight="tight"
             isTruncated
+            padding={4}
+            fontSize="2xl"
+            fontFamily={["sans-serif"]}
+            fontWeight="bold"
           >
             {title}
           </Box>
+          {/* <Spacer /> */}
+          <Box>
+            <Flex alignItems={"center"}>
+              <Box>
+                <Input variant="flushed" placeholder="Add a Comment" />
+              </Box>
+              <Button
+                flex={1}
+                fontSize={"sm"}
+                rounded={"full"}
+                _focus={{
+                  bg: "gray.200",
+                }}
+                onClick={() => {
+                  navigate(`/comments/${id}`);
+                }}
+              >
+                Comment
+              </Button>
+            </Flex>
+          </Box>
+        </Flex>
 
-        {comments?.map((item) => (
-          <p>{item}</p>
-        ))}
+        {/* {comments?.map((item) => (
+          <SingleComment key={item.id} comment={item} />
+        ))} */}
+        
+      </Flex>
+      <Box>
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 4 }}>
+          {(
+            <Masonry>
+              {comments?.map((item) => (
+                 <SingleComment key={item.id} comment={item} />
+              ))}
+            </Masonry>
+          )}
+        </ResponsiveMasonry>
       </Box>
     </>
   );
