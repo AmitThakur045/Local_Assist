@@ -12,6 +12,7 @@ import {
   Flex,
   Grid,
 } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
 import { Link as ReachLink, Route, useNavigate } from "react-router-dom";
 import Comments from "./Comments";
 
@@ -28,12 +29,26 @@ export default function Card({ description, id, comments }) {
         rounded={"lg"}
         margin={"12px"}
         p={8}
-        textAlign={"center"}
+        // textAlign={"center"}
       >
+        <Flex alignItems={"center"} marginBottom={4}>
+          <Image
+            src="https://bit.ly/dan-abramov"
+            alt="Dan Abramov"
+            borderRadius={"full"}
+            width="35px"
+            marginRight={4}
+          />
+          
+          <Box fontWeight={'medium'} fontSize='17px'>
+            Chetan Thakral
+          </Box>
+        </Flex>
         <Text
-          textAlign={"center"}
+          // textAlign={"center"}
           color={useColorModeValue("gray.700", "gray.400")}
           px={3}
+          fontSize={'16px'}
         >
           {description}
         </Text>
@@ -46,7 +61,7 @@ export default function Card({ description, id, comments }) {
             _focus={{
               bg: "gray.200",
             }}
-            onClick={() => {  
+            onClick={() => {
               navigate(`/comments/${id}`);
             }}
           >
