@@ -111,7 +111,7 @@ export default function NavBar() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
+                  <MenuItem>Add Profile Photo</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
                   <MenuItem>
                     <Button colorScheme="teal" size="xs" onClick={handleLogout}>
