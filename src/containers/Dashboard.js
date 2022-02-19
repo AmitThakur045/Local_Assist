@@ -18,7 +18,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { MoonIcon, SunIcon, AddIcon } from "@chakra-ui/icons";
 import { useUserAuth } from "../context/UserAuthContext";
 import Card from "../components/Card";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
@@ -26,6 +26,7 @@ import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import Loader from "../components/Loader";
+import Create from "../components/Create";
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -78,6 +79,7 @@ export default function NavBar() {
 
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
+              <Create />
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>

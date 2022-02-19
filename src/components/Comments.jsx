@@ -23,11 +23,12 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useUserAuth } from "../context/UserAuthContext";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useState, useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import Loader from "../components/Loader";
 import SingleComment from "./SingleComment";
 import { Input } from "@chakra-ui/react";
+import Create from "./Create";
 
 const Comments = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -37,6 +38,7 @@ const Comments = () => {
   const { id } = useParams();
 
   const [posts, setPosts] = useState([]);
+  const [newComment, setNewComment] = useState("");
   const usersCollectionRef = collection(db, "posts");
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const Comments = () => {
     };
 
     getPosts();
-  }, []);
+  }, [newComment]);
 
   let title = null;
   let comments = null;
@@ -66,7 +68,12 @@ const Comments = () => {
     return navigate("/login");
   };
 
-  //   console.log(comments);
+  const AddComment = async () => {
+    const postDoc = doc(db, "posts", id);
+    const newCommentArray = [...comments, newComment];
+    await updateDoc(postDoc, { comments: newCommentArray });
+    setNewComment("");
+  }
 
   return (
     <>
@@ -89,6 +96,7 @@ const Comments = () => {
 
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
+              <Create />
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
@@ -152,7 +160,7 @@ const Comments = () => {
           <Box>
             <Flex alignItems={"center"}>
               <Box>
-                <Input variant="flushed" placeholder="Add a Comment" />
+                <Input variant="flushed" placeholder="Add a Comment" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
               </Box>
               <Button
                 flex={1}
@@ -162,7 +170,7 @@ const Comments = () => {
                   bg: "gray.200",
                 }}
                 onClick={() => {
-                  navigate(`/comments/${id}`);
+                  AddComment();
                 }}
               >
                 Comment
@@ -170,11 +178,7 @@ const Comments = () => {
             </Flex>
           </Box>
         </Flex>
-
-        {/* {comments?.map((item) => (
-          <SingleComment key={item.id} comment={item} />
-        ))} */}
-        
+      
       </Flex>
       <Box>
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 4 }}>
