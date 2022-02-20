@@ -5,6 +5,7 @@ import Signup from "./containers/Signup";
 import Home from "./containers/Home";
 import Comments from "./components/Comments";
 import Form from "./components/Form";
+import Follow from "./components/Follow";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import ProtectedRoute from "./containers/ProtectedRoute";
 
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/comments/:id" element={<Comments />} />
           <Route exact path="/create" element={<Form />} />
+          <Route exact path="/follow" element={<Follow />} />
         </Routes>
       </UserAuthContextProvider>
     </Router>
