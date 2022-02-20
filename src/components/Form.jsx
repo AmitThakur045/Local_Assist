@@ -45,6 +45,7 @@ export default function Form() {
             lastName,
             description,
             comments: [],
+            image: "https://i.pinimg.com/474x/63/91/72/639172dc7e20b699ef16085d3db07af8.jpg",
         };
         await addDoc(postCollectionRef, newPost);
 
