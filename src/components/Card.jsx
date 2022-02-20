@@ -16,7 +16,7 @@ import { Image } from "@chakra-ui/react";
 import { Link as ReachLink, Route, useNavigate } from "react-router-dom";
 import Comments from "./Comments";
 
-export default function Card({ description, id, comments }) {
+export default function Card({ description, id, url, firstName, lastName }) {
   const navigate = useNavigate();
 
   return (
@@ -33,15 +33,16 @@ export default function Card({ description, id, comments }) {
       >
         <Flex alignItems={"center"} marginBottom={4}>
           <Image
-            src="https://bit.ly/dan-abramov"
+            src={url}
             alt="Dan Abramov"
             borderRadius={"full"}
             width="35px"
+            height="35px"
             marginRight={4}
           />
           
           <Box fontWeight={'medium'} fontSize='17px'>
-            Chetan Thakral
+            {firstName} {lastName}
           </Box>
         </Flex>
         <Text
