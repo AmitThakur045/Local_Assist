@@ -30,8 +30,6 @@ import Create from "../components/Create";
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   const { user, logOut } = useUserAuth();
   const navigate = useNavigate();
 
@@ -138,6 +136,7 @@ export default function NavBar() {
                   url={post.image}
                   firstName={post.firstName}
                   lastName={post.lastName}
+                  // like={post.like}
                 />
               ))}
             </Masonry>
