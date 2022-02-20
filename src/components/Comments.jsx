@@ -5,6 +5,7 @@ import {
   Heading,
   Flex,
   Text,
+  Image,
   Avatar,
   Link,
   Button,
@@ -52,10 +53,16 @@ const Comments = () => {
 
   let title = null;
   let comments = null;
+  let firstName = "";
+  let lastName = "";
+  let url = "";
   posts.map((post) => {
     if (post.id === id) {
       title = post.description;
       comments = post.comments;
+      firstName = post.firstName;
+      lastName = post.lastName;
+      url = post.image;
     }
   });
 
@@ -73,7 +80,7 @@ const Comments = () => {
     const newCommentArray = [...comments, newComment];
     await updateDoc(postDoc, { comments: newCommentArray });
     setNewComment("");
-  }
+  };
 
   return (
     <>
@@ -142,7 +149,7 @@ const Comments = () => {
         </Flex>
       </Box>
       <Flex flexDir={"column"} alignItems={"center"}>
-        <Flex alignItems={"center"} gap='50px'>
+        <Flex alignItems={"center"} gap="50px">
           <Box
             mt="1"
             fontWeight="semibold"
@@ -160,15 +167,17 @@ const Comments = () => {
           <Box>
             <Flex alignItems={"center"}>
               <Box>
-                <Input variant="flushed" placeholder="Add a Comment" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+                <Input
+                  variant="flushed"
+                  placeholder="Add a Comment"
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                />
               </Box>
               <Button
                 flex={1}
                 fontSize={"sm"}
                 rounded={"full"}
-                // _focus={{
-                //   bg: "gray.200",
-                // }}
                 onClick={() => {
                   AddComment();
                 }}
@@ -178,17 +187,16 @@ const Comments = () => {
             </Flex>
           </Box>
         </Flex>
-      
       </Flex>
       <Box>
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 4 }}>
-          {(
+          {
             <Masonry>
               {comments?.map((item) => (
-                 <SingleComment key={item.id} comment={item} />
+                <SingleComment key={item.id} comment={item} />
               ))}
             </Masonry>
-          )}
+          }
         </ResponsiveMasonry>
       </Box>
     </>

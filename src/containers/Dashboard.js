@@ -135,7 +135,9 @@ export default function NavBar() {
                   key={post.id}
                   description={post.description}
                   id={post.id}
-                  comments={posts.comments}
+                  url={post.image}
+                  firstName={post.firstName}
+                  lastName={post.lastName}
                 />
               ))}
             </Masonry>
