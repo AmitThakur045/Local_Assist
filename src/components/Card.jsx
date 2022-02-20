@@ -83,6 +83,9 @@ export default function Card({ description, id, url, firstName, lastName }) {
             _focus={{
               bg: "blue.500",
             }}
+            onClick={() => {
+              navigate("/follow")
+            }}
           >
             Follow
           </Button>
