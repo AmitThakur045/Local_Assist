@@ -1,8 +1,10 @@
 import React from 'react'
-
+import { Box } from '@chakra-ui/react'
 const Follow = () => {
   return (
-    <div>Still in development phase.</div>
+    <Box fontSize={"5xl"} fontStyle={"italic"} textAlign={"center"}>
+      Still in development phase.
+    </Box>
   )
 }
 
